@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import Navigation from "./components/shared/Navigation/Navigation";
+import { ThemeProvider, alpha, createTheme } from "@mui/material/styles";
+import { Box, CssBaseline, GlobalStyles } from "@mui/material";
+import { DarkModeContext } from "./context/DarkModeContext";
+import { useContext } from "react";
+import { ArenaProvider } from "./context/ArenaContext";
 function App() {
-  const [count, setCount] = useState(0)
+  const { isDarkMode } = useContext(DarkModeContext);
+  const darkTheme = createTheme({
+    palette: {
+      mode: isDarkMode ? "dark" : "light",
+    },
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider theme={darkTheme}>
+      <ArenaProvider>
+        <CssBaseline />
+        <GlobalStyles
+          styles={{
+            body: {
+              margin: 0,
+              padding: 0,
+              backgroundImage: `${isDarkMode ? "url(/dark_theme.jpg)" : "url(/light_theme.jpg)"}`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundAttachment: "fixed",
+              backgroundSize: "cover",
+              transition: "background-image 0.3s ease-in-out",
+            },
+          }}
+        />
+        <Navigation></Navigation>
+        <Box
+          sx={(theme) => ({
+            height: "calc(100vh - 110px - 50px)",
+            margin: "25px",
+            padding: "25px",
+            borderRadius: "25px",
+            backgroundColor: alpha(theme.palette.background.default, 0.6),
+            [theme.breakpoints.down("md")]: {
+              height: "calc(100vh - 220px - 50px)",
+            },
+          })}
+        >
+          {/* Content Area */}
+        </Box>
+      </ArenaProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
