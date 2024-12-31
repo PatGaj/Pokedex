@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "user_id": 1,
+      "username": "jan",
+      "password": "kowalJan!2",
+      "email": "jan.kowalski@example.com",
+      "pokemons": [
+        {
+          "pokemon_id": 1,
+          "key": "pokeUser_burek",
+          "name": "burek",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+          "weight": 20,
+          "height": 10,
+          "base_experience": 30,
+          "ability": "chlorophyll",
+          "on_arena": false,
+          "favourite": false,
+          "fought": false,
+          "won_fights": 0,
+          "lose_fights": 0
+        },
+        {
+          "pokemon_id": 2,
+          "key": "pokeUser_ziutek",
+          "name": "ziutek",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+          "weight": 10,
+          "height": 20,
+          "base_experience": 30,
+          "ability": "chlorofor",
+          "on_arena": false,
+          "favourite": false,
+          "fought": true,
+          "won_fights": 1,
+          "lose_fights": 1
+        },
+        {
+          "pokemon_id": 3,
+          "key": "pokeApi_bulbasaur",
+          "name": "bulbasaur",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+          "weight": 69,
+          "height": 7,
+          "base_experience": 64,
+          "ability": "overgrow",
+          "on_arena": false,
+          "favourite": false,
+          "fought": true,
+          "won_fights": 1,
+          "lose_fights": 1
+        }
+      ]
+    },
+    {
+      "user_id": 2,
+      "username": "adam",
+      "password": "nowAdam!2",
+      "email": "adam.nowak@example.com",
+      "pokemons": [
+        {
+          "pokemon_id": 1,
+          "key": "pokeUser_mrek",
+          "name": "mrek",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png",
+          "weight": 40,
+          "height": 15,
+          "base_experience": 70,
+          "ability": "chlorophyll",
+          "on_arena": false,
+          "favourite": false,
+          "fought": true,
+          "won_fights": 1,
+          "lose_fights": 0
+        },
+        {
+          "pokemon_id": 2,
+          "key": "pokeUser_durek",
+          "name": "durek",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/100.png",
+          "weight": 10,
+          "height": 20,
+          "base_experience": 30,
+          "ability": "chlorofor",
+          "on_arena": false,
+          "favourite": false,
+          "fought": true,
+          "won_fights": 0,
+          "lose_fights": 1
+        }
+      ]
+    }
+  ]
+}
