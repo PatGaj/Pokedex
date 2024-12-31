@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
 import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import StadiumIcon from "@mui/icons-material/Stadium";
@@ -11,23 +11,27 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonIcon from "@mui/icons-material/Person";
 import { LoginContext } from "../../../context/LoginContext";
 import { ArenaContext } from "../../../context/ArenaContext";
+import { useNavigate } from "react-router-dom";
 
 function Navigation() {
   const { inArena } = useContext(ArenaContext);
-  const [value, setValue] = useState(null);
-  const { isLogin, setIsLogin } = useContext(LoginContext);
-  const logOut = () => setIsLogin(false); //Dodać powrót do home
-  const logIn = () => setIsLogin(true);
+  const { isLogin, setIsLogin, dataUser } = useContext(LoginContext);
+  const navigate = useNavigate();
+  const logOut = () => {
+    setIsLogin(false);
+    navigate("/");
+  };
+
   const loggedInActions = [
-    { label: "Favorites", icon: <FavoriteIcon /> },
-    { label: `Arena ${inArena}/2`, icon: <StadiumIcon /> },
-    { label: "Ranking", icon: <StarsIcon /> },
-    { label: "Editing", icon: <TuneIcon /> },
+    { label: "Favorites", icon: <FavoriteIcon />, handleClick: () => navigate("favourites") },
+    { label: `Arena ${inArena}/2`, icon: <StadiumIcon />, handleClick: () => navigate("arena") },
+    { label: "Ranking", icon: <StarsIcon />, handleClick: () => navigate("ranking") },
+    { label: "Editing", icon: <TuneIcon />, handleClick: () => navigate("editing") },
     { label: "Log Out", icon: <LogoutIcon />, handleClick: logOut },
   ];
   const loggedOutActions = [
-    { label: "Log In", icon: <LoginIcon />, handleClick: logIn }, //Ta funkcja jest tymczasowo
-    { label: "Register", icon: <PersonAddAlt1Icon /> },
+    { label: "Log In", icon: <LoginIcon />, handleClick: () => navigate("login") },
+    { label: "Register", icon: <PersonAddAlt1Icon />, handleClick: () => navigate("registration") },
   ];
 
   const actions = isLogin ? loggedInActions : loggedOutActions;
@@ -55,27 +59,27 @@ function Navigation() {
         },
       })}
     >
-      <Box sx={(theme) => ({ padding: "10px 0 0 30px", [theme.breakpoints.down("md")]: { padding: "10px 0 0 0" } })}>
+      <Box
+        onClick={() => navigate("/")}
+        sx={(theme) => ({
+          padding: "10px 0 0 30px",
+          cursor: "pointer",
+          [theme.breakpoints.down("md")]: { padding: "10px 0 0 0" },
+        })}
+      >
         <img src="/Pokedex.png" width="220" alt="" />
       </Box>
       <Box>
         <Box sx={{ display: "flex", justifyContent: "center", columnGap: "25px" }}>
           {isLogin && (
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PersonIcon fontSize="large" /> <span>Siema</span>
+              <PersonIcon fontSize="large" /> <span>{dataUser.username}</span>
             </Box>
           )}
 
           <ThemeSwitch />
         </Box>
-        <BottomNavigation
-          sx={{ display: "flex", flexWrap: "wrap" }}
-          showLabels
-          value={value}
-          onChange={(_, newValue) => {
-            setValue(newValue);
-          }}
-        >
+        <BottomNavigation sx={{ display: "flex", flexWrap: "wrap" }} showLabels>
           {actions.map((action, index) => (
             <BottomNavigationAction key={index} label={action.label} icon={action.icon} onClick={action.handleClick} />
           ))}
