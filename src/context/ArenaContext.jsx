@@ -12,7 +12,6 @@ export function ArenaProvider({ children }) {
       setArenaFull(false);
     }
   }, [inArena]);
-  console.log(inArena);
 
   return <ArenaContext.Provider value={{ arenaFull, inArena, setInArena }}>{children}</ArenaContext.Provider>;
 }
