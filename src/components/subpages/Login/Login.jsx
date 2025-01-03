@@ -1,40 +1,52 @@
 import { alpha, Box, Button, TextField, Typography } from "@mui/material";
 import { LoginContext } from "../../../context/LoginContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
+const schema = z.object({
+  email: z.string().email("Invalid email format"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
 function Login() {
   const navigate = useNavigate();
   const { setIsLogin, setDataUser } = useContext(LoginContext);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const { enqueueSnackbar } = useSnackbar(); 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async (data) => {
     try {
-      const response = await fetch(`http://localhost:3000/users?email=${email}&password=${password}`);
+      const response = await fetch(`http://localhost:3000/users?email=${data.email}&password=${data.password}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      if (data.length > 0) {
+      const userData = await response.json();
+      if (userData.length > 0) {
         setIsLogin(true);
-        setDataUser(data[0]);
+        setDataUser(userData[0]);
+        enqueueSnackbar("You have logged in successfully", { variant: "success" })
         navigate("/");
       } else {
-        setError("Invalid username or password");
+        enqueueSnackbar("Invalid username or password", { variant: "error" });
       }
     } catch {
-      setError("Something went wrong");
-      console.log(error);
+      enqueueSnackbar("Something went wrong", { variant: "error" });
     }
   };
+
   return (
     <Box
       component="form"
-      onSubmit={handleLogin}
+      onSubmit={handleSubmit(handleLogin)}
       sx={(theme) => ({
         display: "flex",
         flexDirection: "column",
@@ -55,21 +67,18 @@ function Login() {
       </Typography>
       <TextField
         label="Email"
-        name="email"
-        type="email"
-        variant="outlined"
-        onChange={(e) => setEmail(e.target.value)}
-        value="jan.kowalski@example.com"
+        {...register("email")}
+        error={!!errors.email}
+        helperText={errors.email?.message}
         fullWidth
         required
       />
       <TextField
         label="Password"
-        name="password"
         type="password"
-        variant="outlined"
-        onChange={(e) => setPassword(e.target.value)}
-        value="kowalJan!2"
+        {...register("password")}
+        error={!!errors.password}
+        helperText={errors.password?.message}
         fullWidth
         required
       />
@@ -79,4 +88,5 @@ function Login() {
     </Box>
   );
 }
+
 export default Login;

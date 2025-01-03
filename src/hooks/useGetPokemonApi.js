@@ -15,7 +15,7 @@ export const useGetPokemonApi = (url) => {
               const response = await fetch(element.url);
               const pokemonApi = await response.json();
               const pokemon = {
-                key: `pokeApi_${pokemonApi.name}`,
+                data_source_id: `pokeApi_${pokemonApi.name}`,
                 name: pokemonApi.name,
                 image: pokemonApi.sprites?.front_default,
                 weight: pokemonApi.weight,

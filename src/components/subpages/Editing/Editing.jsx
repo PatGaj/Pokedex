@@ -31,14 +31,14 @@ function Editing() {
         })}
       >
         <List>
-          {pokemons.map(({ name, image, key }, index) => (
-            <ListItem sx={{ p: "0", m: "0" }} key={key}>
+          {pokemons.map(({ name, image, data_source_id }, index) => (
+            <ListItem sx={{ p: "0", m: "0" }} key={data_source_id}>
               <Typography variant="body1" sx={{ marginRight: 1 }}>
                 {index + 1}.
               </Typography>
               <ListItemText primary={`Name: ${name}`} />
               <img src={image} />
-              <Button onClick={() => navigate("editpokemon")} variant="contained">
+              <Button onClick={() => navigate(`editpokemon/${data_source_id}`)} variant="contained">
                 Edit
               </Button>
             </ListItem>

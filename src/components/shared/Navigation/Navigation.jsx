@@ -10,21 +10,23 @@ import LoginIcon from "@mui/icons-material/Login";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonIcon from "@mui/icons-material/Person";
 import { LoginContext } from "../../../context/LoginContext";
-import { ArenaContext } from "../../../context/ArenaContext";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 function Navigation() {
-  const { inArena } = useContext(ArenaContext);
-  const { isLogin, setIsLogin, dataUser } = useContext(LoginContext);
+  const { isLogin, setIsLogin, dataUser, setDataUser } = useContext(LoginContext);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const logOut = () => {
     setIsLogin(false);
+    setDataUser([]);
+    enqueueSnackbar("Successfully logged out", { variant: "success" });
     navigate("/");
   };
 
   const loggedInActions = [
     { label: "Favorites", icon: <FavoriteIcon />, handleClick: () => navigate("favourites") },
-    { label: `Arena ${inArena}/2`, icon: <StadiumIcon />, handleClick: () => navigate("arena") },
+    { label: "Arena", icon: <StadiumIcon />, handleClick: () => navigate("arena") },
     { label: "Ranking", icon: <StarsIcon />, handleClick: () => navigate("ranking") },
     { label: "Editing", icon: <TuneIcon />, handleClick: () => navigate("editing") },
     { label: "Log Out", icon: <LogoutIcon />, handleClick: logOut },

@@ -1,9 +1,24 @@
-import { Box, Pagination, TextField } from "@mui/material";
+import { Box, CircularProgress, Pagination, TextField } from "@mui/material";
 import Tile from "../../shared/Tile/Tile";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PokemonsContext } from "../../../context/PokemonsContext";
 function Home() {
   const { pokemons } = useContext(PokemonsContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchedElements = pokemons.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 15;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = searchedElements.slice(startIndex, endIndex);
+
+  const handlePageChange = (_, value) => {
+    setPage(value);
+  };
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setPage(1);
+  };
   return (
     <Box
       sx={{
@@ -15,7 +30,7 @@ function Home() {
         rowGap: "25px",
       }}
     >
-      <TextField id="filled-basic" label="Search" variant="filled" />
+      <TextField label="Search" variant="filled" value={searchTerm} onChange={handleSearchChange} />
       <Box
         sx={{
           height: "80%",
@@ -28,11 +43,23 @@ function Home() {
           overflowY: "scroll",
         }}
       >
-        {pokemons &&
-          pokemons.map(
-            ({ key, name, image, weight, height, base_experience, ability, fought, lose_fights, won_fights }) => (
+        {pokemons.length>0 ? (
+          currentItems.map(
+            ({
+              data_source_id,
+              name,
+              image,
+              weight,
+              height,
+              base_experience,
+              ability,
+              fought,
+              lose_fights,
+              won_fights,
+            }) => (
               <Tile
-                key={key}
+                key={data_source_id}
+                data_source_id={data_source_id}
                 name={name}
                 image={image}
                 weight={weight}
@@ -44,9 +71,18 @@ function Home() {
                 won_fights={won_fights}
               />
             )
-          )}
+          )
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
-      <Pagination count={10} variant="outlined" shape="rounded" />
+      <Pagination
+        count={Math.ceil(searchedElements.length / itemsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        variant="outlined"
+        shape="rounded"
+      />
     </Box>
   );
 }

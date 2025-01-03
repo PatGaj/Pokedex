@@ -1,6 +1,11 @@
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Tile from "../../shared/Tile/Tile";
+import { LoginContext } from "../../../context/LoginContext";
+import { useContext } from "react";
+
 function Favorites() {
+  
+  const { dataUser } = useContext(LoginContext);
   return (
     <Box
       sx={{
@@ -24,9 +29,41 @@ function Favorites() {
           flexWrap: "wrap",
         }}
       >
-        {/* <Tile /> Miejsce na ulubione pokemony zapisanych w JSON-server. Jeśli lista jest pusta trzeba wyświetlić Komunikat zachęcający do dodania*/}
+        {dataUser.pokemons.filter((pokemon) => pokemon.favourite).length > 0 ? (
+          dataUser.pokemons.map(
+            ({
+              data_source_id,
+              name,
+              image,
+              weight,
+              height,
+              base_experience,
+              ability,
+              fought,
+              lose_fights,
+              won_fights,
+              favourite,
+            }) =>
+              favourite && (
+                <Tile
+                  key={data_source_id}
+                  data_source_id={data_source_id}
+                  name={name}
+                  image={image}
+                  weight={weight}
+                  height={height}
+                  baseExperience={base_experience}
+                  ability={ability}
+                  fought={fought}
+                  lose_fights={lose_fights}
+                  won_fights={won_fights}
+                />
+              )
+          )
+        ) : (
+          <Typography variant="h5">{"It looks like you don't have any favourite Pokemon yet. Add some to your favourites!"}</Typography>
+        )}
       </Box>
-      {/* <Pagination count={10} variant="outlined" shape="rounded" /> Dodać w przypadku większej ilości fav na stronie niż 15 */}
     </Box>
   );
 }

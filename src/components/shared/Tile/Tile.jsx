@@ -2,12 +2,26 @@ import { Box, Typography } from "@mui/material";
 import Stat from "../Stat/Stat";
 import { DarkModeContext } from "../../../context/DarkModeContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Tile({ name, image, weight, height, baseExperience, ability, fought, won_fights, lose_fights }) {
+function Tile({
+  name,
+  image,
+  weight,
+  height,
+  baseExperience,
+  ability,
+  fought,
+  won_fights,
+  lose_fights,
+  data_source_id,
+}) {
   const { isDarkMode } = useContext(DarkModeContext);
 
+  const navigate = useNavigate();
   return (
     <Box
+      onClick={() => navigate(`details/${data_source_id}`)}
       sx={{
         display: "flex",
         width: "220px",

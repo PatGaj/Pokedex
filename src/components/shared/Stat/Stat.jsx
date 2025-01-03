@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-function Stats({ name, value }) {
+function Stat({ name, value }) {
   return (
     <Box
       sx={{
@@ -17,4 +17,4 @@ function Stats({ name, value }) {
   );
 }
 
-export default Stats;
+export default Stat;

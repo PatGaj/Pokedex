@@ -9,6 +9,7 @@ import Login from "../components/subpages/Login/Login";
 import Ranking from "../components/subpages/Ranking/Ranking";
 import Registration from "../components/subpages/Registration/Registration";
 import App from "../App";
+import DetailsPokemon from "../components/shared/DetailsPokemon/DetailsPokemon";
 
 const router = createBrowserRouter([
   {
@@ -16,12 +17,13 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <Home /> },
-      { path: "*", element: <Home /> },
+      { path: "details/:data_source_id", element: <DetailsPokemon /> },
       { path: "arena", element: <Arena /> },
       { path: "editing", element: <Editing /> },
-      { path: "editing/editpokemon", element: <EditPokemon /> },
+      { path: "editing/editpokemon/:data_source_id", element: <EditPokemon /> },
       { path: "editing/createnewpokemon", element: <CreateNewPokemon /> },
       { path: "favourites", element: <Favourites /> },
+      { path: "favourites/details/:data_source_id", element: <DetailsPokemon /> },
       { path: "ranking", element: <Ranking /> },
       { path: "login", element: <Login /> },
       { path: "registration", element: <Registration /> },
