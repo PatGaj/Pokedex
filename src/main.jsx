@@ -1,16 +1,12 @@
-// import { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { DarkModeProvider } from "./context/DarkModeContext.jsx";
-import { LoginProvider } from "./context/LoginContext.jsx";
-import "./index.css";
+import { ContextProviders } from "context";
 import { RouterProvider } from "react-router-dom";
-import router from "./services/router.jsx";
-import { PokemonsProvider } from "./context/PokemonsContext";
+import { router } from "services";
 import { SnackbarProvider } from "notistack";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <DarkModeProvider>
+  <StrictMode>
     <SnackbarProvider
       maxSnack={3}
       autoHideDuration={3000}
@@ -19,12 +15,9 @@ createRoot(document.getElementById("root")).render(
         horizontal: "right",
       }}
     >
-      <LoginProvider>
-        <PokemonsProvider>
-          <RouterProvider router={router} />
-        </PokemonsProvider>
-      </LoginProvider>
+      <ContextProviders>
+        <RouterProvider router={router} />
+      </ContextProviders>
     </SnackbarProvider>
-  </DarkModeProvider>
-  // </StrictMode>
+  </StrictMode>
 );

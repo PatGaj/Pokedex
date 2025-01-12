@@ -8,11 +8,13 @@ function Stat({ name, value }) {
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        width:"50%"
+        flex: "45%",
       }}
     >
       <div>{value}</div>
-      <div><strong>{name}</strong></div>
+      <div>
+        <strong>{name}</strong>
+      </div>
     </Box>
   );
 }

@@ -31,4 +31,3 @@ export const useFetch = (url) => {
   }, [url]);
   return { data, error, isLoading };
 };
-

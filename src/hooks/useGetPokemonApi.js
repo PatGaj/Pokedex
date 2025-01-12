@@ -4,9 +4,10 @@ import { useFetch } from "./useFetch";
 export const useGetPokemonApi = (url) => {
   const { data } = useFetch(url);
   const [pokemonsApi, setPokemonsApi] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchPokemonDetails = async () => {
+      setLoading(true);
       if (data) {
         try {
           const pokemonList = data.results;
@@ -22,7 +23,6 @@ export const useGetPokemonApi = (url) => {
                 height: pokemonApi.height,
                 base_experience: pokemonApi.base_experience,
                 ability: pokemonApi.abilities?.[0]?.ability?.name,
-                on_arena: false,
                 favourite: false,
                 fought: false,
                 won_fights: 0,
@@ -34,11 +34,13 @@ export const useGetPokemonApi = (url) => {
           setPokemonsApi(pokemonDetails);
         } catch (err) {
           console.error("Błąd podczas pobierania danych Pokemonów:", err);
+        } finally {
+          setLoading(false);
         }
       }
     };
 
     fetchPokemonDetails();
   }, [data]);
-  return { pokemonsApi };
+  return { pokemonsApi, loading };
 };

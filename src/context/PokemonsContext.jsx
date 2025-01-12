@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useGetPokemonApi } from "../hooks/useGetPokemonApi";
+import { useGetPokemonApi } from "hooks";
 import { LoginContext } from "./LoginContext";
 
 export const PokemonsContext = createContext();
@@ -30,6 +30,8 @@ export function PokemonsProvider({ children }) {
       } else {
         setPokemons(pokemonsApi);
       }
+    } catch (error) {
+      console.error("Error merging Pokemons:", error);
     } finally {
       setLoading(false);
     }

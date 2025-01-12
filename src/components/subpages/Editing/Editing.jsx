@@ -1,7 +1,7 @@
-import { alpha, Box, Button, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { alpha, Box, Button, List, ListItem, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { PokemonsContext } from "../../../context/PokemonsContext";
+import { PokemonsContext } from "context";
 function Editing() {
   const navigate = useNavigate();
   const { pokemons } = useContext(PokemonsContext);
@@ -32,11 +32,11 @@ function Editing() {
       >
         <List>
           {pokemons.map(({ name, image, data_source_id }, index) => (
-            <ListItem sx={{ p: "0", m: "0" }} key={data_source_id}>
-              <Typography variant="body1" sx={{ marginRight: 1 }}>
-                {index + 1}.
-              </Typography>
-              <ListItemText primary={`Name: ${name}`} />
+            <ListItem
+              key={data_source_id}
+            >
+
+              <ListItemText primary={`${index + 1}. Name: ${name.toUpperCase()}`} />
               <img src={image} />
               <Button onClick={() => navigate(`editpokemon/${data_source_id}`)} variant="contained">
                 Edit

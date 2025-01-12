@@ -1,92 +1,119 @@
 import { useContext } from "react";
-import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
-import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
-import StadiumIcon from "@mui/icons-material/Stadium";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import StarsIcon from "@mui/icons-material/Stars";
-import TuneIcon from "@mui/icons-material/Tune";
-import LogoutIcon from "@mui/icons-material/Logout";
-import LoginIcon from "@mui/icons-material/Login";
-import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import PersonIcon from "@mui/icons-material/Person";
-import { LoginContext } from "../../../context/LoginContext";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
+import { LoginContext } from "context";
+import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import {
+  Person,
+  Stadium,
+  Favorite as FavoriteIcon,
+  Stars,
+  Tune,
+  Logout as LogoutIcon,
+  Login as LoginIcon,
+  PersonAddAlt1,
+} from "@mui/icons-material";
+
+import { ThemeSwitch } from "components/shared";
 
 function Navigation() {
-  const { isLogin, setIsLogin, dataUser, setDataUser } = useContext(LoginContext);
+  const { isLogin, dataUser, logout } = useContext(LoginContext);
+
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-  const logOut = () => {
-    setIsLogin(false);
-    setDataUser([]);
-    enqueueSnackbar("Successfully logged out", { variant: "success" });
-    navigate("/");
-  };
 
   const loggedInActions = [
     { label: "Favorites", icon: <FavoriteIcon />, handleClick: () => navigate("favourites") },
-    { label: "Arena", icon: <StadiumIcon />, handleClick: () => navigate("arena") },
-    { label: "Ranking", icon: <StarsIcon />, handleClick: () => navigate("ranking") },
-    { label: "Editing", icon: <TuneIcon />, handleClick: () => navigate("editing") },
-    { label: "Log Out", icon: <LogoutIcon />, handleClick: logOut },
+    { label: "Arena", icon: <Stadium />, handleClick: () => navigate("arena") },
+    { label: "Ranking", icon: <Stars />, handleClick: () => navigate("ranking") },
+    { label: "Editing", icon: <Tune />, handleClick: () => navigate("editing") },
+    {
+      label: "Log Out",
+      icon: <LogoutIcon />,
+      handleClick: () => {
+        logout();
+        navigate("/");
+      },
+    },
   ];
+
   const loggedOutActions = [
     { label: "Log In", icon: <LoginIcon />, handleClick: () => navigate("login") },
-    { label: "Register", icon: <PersonAddAlt1Icon />, handleClick: () => navigate("registration") },
+    { label: "Register", icon: <PersonAddAlt1 />, handleClick: () => navigate("registration") },
   ];
 
   const actions = isLogin ? loggedInActions : loggedOutActions;
   return (
     <Box
       sx={(theme) => ({
-        height: "110px",
-        display: "flex",
-        justifyContent: "space-between",
+        backgroundColor: theme.palette.background.default,
         margin: "0 72px",
-        padding: "0 50px 0 0",
+        padding: "0 60px",
         borderRadius: "0 0 60px 60px",
         border: "solid 1px",
         boxShadow: "0px 0px 10px 1px",
         borderTop: "none",
-        backgroundColor: theme.palette.background.default,
         [theme.breakpoints.down("md")]: {
-          height: "220px",
-          flexDirection: "column",
-          justifyContent: "start",
-          alignItems: "center",
-          margin: "0",
-          borderRadius: "0",
-          padding: "0",
+          border: "none",
+          borderRadius: 0,
+          margin: 0,
+          padding: 0,
         },
       })}
     >
       <Box
-        onClick={() => navigate("/")}
-        sx={(theme) => ({
-          padding: "10px 0 0 30px",
-          cursor: "pointer",
-          [theme.breakpoints.down("md")]: { padding: "10px 0 0 0" },
+        sx={() => ({
+          display: "flex",
+          height: "85px",
+          justifyContent: "space-between",
+          padding: "0 10px",
         })}
       >
-        <img src="/Pokedex.png" width="220" alt="" />
-      </Box>
-      <Box>
-        <Box sx={{ display: "flex", justifyContent: "center", columnGap: "25px" }}>
+        <Box
+          component="img"
+          src="/Pokedex.png"
+          onClick={() => navigate("/")}
+          sx={{ width: "200px", cursor: "pointer" }}
+        />
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            alignItems: "center",
+            columnGap: "25px",
+            [theme.breakpoints.down("sm")]: { flexDirection: "column" },
+          })}
+        >
           {isLogin && (
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PersonIcon fontSize="large" /> <span>{dataUser.username}</span>
+              <Person fontSize="large" /> <span>{dataUser.username}</span>
             </Box>
           )}
 
           <ThemeSwitch />
         </Box>
-        <BottomNavigation sx={{ display: "flex", flexWrap: "wrap" }} showLabels>
-          {actions.map((action, index) => (
-            <BottomNavigationAction key={index} label={action.label} icon={action.icon} onClick={action.handleClick} />
-          ))}
-        </BottomNavigation>
       </Box>
+      <BottomNavigation
+        sx={(theme) => ({
+          display: "flex",
+          justifyContent: "end",
+          height: "55px",
+          [theme.breakpoints.down("sm")]: { justifyContent: "center" },
+        })}
+        showLabels
+      >
+        {actions.map((action, index) => (
+          <BottomNavigationAction
+            key={index}
+            sx={(theme) => ({
+              minWidth: "80px",
+              maxWidth: "100px",
+              padding: 0,
+              [theme.breakpoints.down("sm")]: { minWidth: "40px", maxWidth: "60px" },
+            })}
+            label={action.label}
+            icon={action.icon}
+            onClick={action.handleClick}
+          />
+        ))}
+      </BottomNavigation>
     </Box>
   );
 }

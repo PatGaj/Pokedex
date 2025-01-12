@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import Tile from "../../shared/Tile/Tile";
-import { LoginContext } from "../../../context/LoginContext";
+import { Tile } from "components/shared";
+import { LoginContext } from "context";
 import { useContext } from "react";
 
 function Favorites() {
-  
   const { dataUser } = useContext(LoginContext);
   return (
     <Box
@@ -61,7 +60,9 @@ function Favorites() {
               )
           )
         ) : (
-          <Typography variant="h5">{"It looks like you don't have any favourite Pokemon yet. Add some to your favourites!"}</Typography>
+          <Typography variant="h5">
+            {"It looks like you don't have any favourite Pokemon yet. Add some to your favourites!"}
+          </Typography>
         )}
       </Box>
     </Box>

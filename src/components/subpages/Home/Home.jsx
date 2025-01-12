@@ -1,24 +1,9 @@
-import { Box, CircularProgress, Pagination, TextField } from "@mui/material";
-import Tile from "../../shared/Tile/Tile";
-import { useContext, useState } from "react";
-import { PokemonsContext } from "../../../context/PokemonsContext";
+import { Box, CircularProgress, Pagination, TextField, Typography } from "@mui/material";
+import { Tile } from "components/shared";
+import { useHomeLogic } from "./useHomeLogic";
 function Home() {
-  const { pokemons } = useContext(PokemonsContext);
-  const [searchTerm, setSearchTerm] = useState("");
-  const searchedElements = pokemons.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 15;
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = searchedElements.slice(startIndex, endIndex);
-
-  const handlePageChange = (_, value) => {
-    setPage(value);
-  };
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setPage(1);
-  };
+  const { loading, searchTerm, handleSearchChange, page, handlePageChange, currentItems, searchedElements } =
+    useHomeLogic();
   return (
     <Box
       sx={{
@@ -43,7 +28,9 @@ function Home() {
           overflowY: "scroll",
         }}
       >
-        {pokemons.length>0 ? (
+        {loading ? (
+          <CircularProgress />
+        ) : (
           currentItems.map(
             ({
               data_source_id,
@@ -65,19 +52,19 @@ function Home() {
                 weight={weight}
                 height={height}
                 baseExperience={base_experience}
-                ability={ability || "Brak zdolności"}
+                ability={ability}
                 fought={fought}
                 lose_fights={lose_fights}
                 won_fights={won_fights}
               />
             )
           )
-        ) : (
-          <CircularProgress />
         )}
+        {searchedElements.length === 0 && <Typography>No pokemons found.</Typography>}
       </Box>
       <Pagination
-        count={Math.ceil(searchedElements.length / itemsPerPage)}
+        count={Math.ceil(searchedElements.length / 15)}
+        size="small"
         page={page}
         onChange={handlePageChange}
         variant="outlined"

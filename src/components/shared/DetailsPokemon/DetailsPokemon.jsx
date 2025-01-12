@@ -1,186 +1,74 @@
-import { Box, Checkbox, Typography } from "@mui/material";
-import Stat from "../Stat/Stat";
-import { Favorite, FavoriteBorder, Stadium } from "@mui/icons-material";
-import StadiumOutlinedIcon from "@mui/icons-material/StadiumOutlined";
-import { useContext, useState } from "react";
-import { LoginContext } from "../../../context/LoginContext";
-import { DarkModeContext } from "../../../context/DarkModeContext";
-import { PokemonsContext } from "../../../context/PokemonsContext";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { useSnackbar } from "notistack";
+import { PokemonsContext, DarkModeContext, LoginContext } from "context";
+import { Box, Typography } from "@mui/material";
+import { Stat } from "components/shared";
+import CheckBoxWrapper from "./CheckBoxWrapper";
 
 function DetailsPokemon() {
-  const { isLogin } = useContext(LoginContext);
-  const { dataUser } = useContext(LoginContext);
-  const { isDarkMode } = useContext(DarkModeContext);
   const { data_source_id } = useParams();
+
+  const { isLogin } = useContext(LoginContext);
+  const { isDarkMode } = useContext(DarkModeContext);
   const { pokemons } = useContext(PokemonsContext);
-  const [quantity, setQuantity] = useState(dataUser ? dataUser.quantity_arena : 0);
+
   const pokemon = pokemons.find((element) => element.data_source_id === data_source_id);
-  const { enqueueSnackbar } = useSnackbar();
-
-  async function updatePokemonsForUser(userId, updatedPokemons) {
-    const baseUrl = "http://localhost:3000/users";
-    const url = `${baseUrl}/${userId}`;
-
-    try {
-      const response = await fetch(url, {
-        method: "PATCH", // Metoda PATCH, aby częściowo zaktualizować użytkownika
-        headers: {
-          "Content-Type": "application/json", // Określenie formatu danych
-        },
-        body: JSON.stringify({ pokemons: updatedPokemons }), // Przesłanie nowej listy pokemonów
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to update user. Status: ${response.status}`);
-      }
-
-      const data = await response.json(); // Odbiór zaktualizowanych danych
-      console.log("Successfully updated pokemons:", data);
-      return data;
-    } catch (error) {
-      console.error("Error updating pokemons:", error);
-    }
-  }
-
-  async function updatedQuantityArenaForUser(userId, updatedQuantityArena) {
-    const baseUrl = "http://localhost:3000/users";
-    const url = `${baseUrl}/${userId}`;
-
-    try {
-      const response = await fetch(url, {
-        method: "PATCH", // Metoda PATCH, aby częściowo zaktualizować użytkownika
-        headers: {
-          "Content-Type": "application/json", // Określenie formatu danych
-        },
-        body: JSON.stringify({ quantity_arena: updatedQuantityArena }), // Przesłanie nowej listy pokemonów
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to update user. Status: ${response.status}`);
-      }
-
-      const data = await response.json(); // Odbiór zaktualizowanych danych
-      console.log("Successfully updated pokemons:", data);
-      return data;
-    } catch (error) {
-      console.error("Error updating pokemons:", error);
-    }
-  }
+  const { fought, lose_fights, won_fights, image, name, weight, height, base_experience, ability } = pokemon || {};
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      {isLogin && (
-        <Box sx={{ display: "flex", justifyContent: "space-around", width: "100%", height: "50px" }}>
-          <div>
-            <Checkbox
-              disabled={dataUser.quantity_arena === 2 && !pokemon.on_arena}
-              icon={<StadiumOutlinedIcon />}
-              checkedIcon={<Stadium />}
-              onChange={() => {
-                pokemon.on_arena = event.target.checked;
-                if (dataUser.pokemons.includes(pokemon)) {
-                  updatePokemonsForUser(dataUser.id, dataUser.pokemons);
-                } else {
-                  pokemon.id = dataUser.pokemons.length + 1;
-                  dataUser.pokemons.push(pokemon);
-                  updatePokemonsForUser(dataUser.id, dataUser.pokemons);
-                }
-                if (event.target.checked) {
-                  dataUser.quantity_arena += 1;
-                  enqueueSnackbar(`Successfully added Pokemon ${pokemon.name} to the Arena`, { variant: "success" });
-                } else {
-                  dataUser.quantity_arena -= 1;
-                  enqueueSnackbar(`Successfully removed Pokemon ${pokemon.name} from the Arena`, { variant: "success" });
-                }
-                updatedQuantityArenaForUser(dataUser.id, dataUser.quantity_arena);
-                setQuantity(dataUser.quantity_arena);
-              }}
-              defaultChecked={pokemon.on_arena}
-              sx={{
-                alignSelf: "end",
-                "& .MuiSvgIcon-root": {
-                  fontSize: 40,
-                  color: "gray",
-                },
-                "&.Mui-checked .MuiSvgIcon-root": {
-                  color: "green",
-                },
-              }}
-            />
-            {quantity}/2
-          </div>
-
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            defaultChecked={pokemon.favourite}
-            onChange={() => {
-              pokemon.favourite = event.target.checked;
-              if (dataUser.pokemons.includes(pokemon)) {
-                updatePokemonsForUser(dataUser.id, dataUser.pokemons);
-              } else {
-                pokemon.id = dataUser.pokemons.length + 1;
-                dataUser.pokemons.push(pokemon);
-                updatePokemonsForUser(dataUser.id, dataUser.pokemons);
-              }
-              event.target.checked
-                ? enqueueSnackbar(`Successfully added Pokemon ${pokemon.name} to Favorite`, { variant: "success" })
-                : enqueueSnackbar(`Successfully removed Pokemon ${pokemon.name} from Favorite`, { variant: "success" });
-            }}
-            sx={{
-              alignSelf: "end",
-              "& .MuiSvgIcon-root": {
-                fontSize: 40,
-                color: "gray",
-              },
-              "&.Mui-checked .MuiSvgIcon-root": {
-                color: "red",
-              },
-            }}
-          />
-        </Box>
-      )}
+      {isLogin && <CheckBoxWrapper pokemon={pokemon} />}
       <Box
-        sx={{
+        sx={(theme) => ({
           width: "100%",
-          padding: "25px",
-          height: "calc(100% - 50px)",
+          border: "1px solid #cccccc",
+          position: "relative",
+          borderRadius: "14px",
           display: "flex",
           justifyContent: "space-around",
-          border: "1px solid #cccccc",
-          borderRadius: "25px",
-          opacity: "95%",
+          alignItems: "center",
           background: `${
             isDarkMode
               ? "linear-gradient(-45deg, #292727, #494949,#292727)"
               : "linear-gradient(-45deg, #c5c5c4, #ffffff,#a7a5a2)"
           }`,
-        }}
+          [theme.breakpoints.down("md")]: { alignItems: "center", flexDirection: "column" },
+        })}
       >
+        {fought && (
+          <Box sx={{ position: "absolute", top: 25, left: 25 }}>
+            <Typography fontWeight="600">WIN:{won_fights}</Typography>
+            <Typography>LOSE:{lose_fights}</Typography>
+          </Box>
+        )}
         <Box
           component="img"
-          sx={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
-          src={pokemon.image}
+          sx={(theme) => ({
+            width: "400px",
+            filter: "drop-shadow(-10px 5px 5px rgba(0, 0, 0, 0.5))",
+            [theme.breakpoints.down("md")]: { width: "200px" },
+          })}
+          src={image}
         />
-        <Box sx={{ width: "50%", height: "100%" }}>
-          <Typography variant="h3" sx={{ textAlign: "center", mt: "50px" }}>
-            {pokemon.name}
+        <Box sx={() => ({ marginTop: "50px" })}>
+          <Typography sx={{ textAlign: "center", fontSize: "1.5rem", fontWeight: "600" }}>
+            {name?.toUpperCase()}
           </Typography>
           <Box
-            sx={{
-              height: "80%",
+            sx={(theme) => ({
               display: "flex",
+              justifyContent: "space-around",
               flexWrap: "wrap",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+              columnGap: "10px",
+              rowGap: "25px",
+              margin: "25px 0",
+              [theme.breakpoints.down("md")]: { columnGap: "30px", rowGap: "10px" },
+            })}
           >
-            <Stat name="Base Experience" value={pokemon.base_experience} />
-            <Stat name="Height" value={pokemon.height} />
-            <Stat name="Weight" value={pokemon.weight} />
-            <Stat name="Ability" value={pokemon.ability} />
+            <Stat name="Height" value={height} />
+            <Stat name="Weight" value={weight} />
+            <Stat name="Ability" value={ability} />
+            <Stat name="Base Experience" value={base_experience} />
           </Box>
         </Box>
       </Box>

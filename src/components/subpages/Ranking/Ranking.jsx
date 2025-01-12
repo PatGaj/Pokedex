@@ -4,37 +4,14 @@ import {
   FormControl,
   InputLabel,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
-  Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
-import { PokemonsContext } from "../../../context/PokemonsContext";
+import { useRankingLogic } from "./useRankingLogic";
+import RankingElement from "./RankingElement";
 
 function Ranking() {
-  const { pokemons } = useContext(PokemonsContext);
-  const [sort, setSort] = useState("base_experience");
-  const handleChange = (event) => {
-    setSort(event.target.value);
-  };
-
-  const sortedPokemons = [...pokemons].sort((a, b) => {
-    switch (sort) {
-      case "base_experience":
-        return b.base_experience - a.base_experience;
-      case "weight":
-        return b.weight - a.weight;
-      case "height":
-        return b.height - a.height;
-      case "won_fights":
-        return b.won_fights - a.won_fights;
-      default:
-        return 0;
-    }
-  });
+  const { sortedPokemons, sort, handleChange } = useRankingLogic();
 
   return (
     <Box
@@ -48,13 +25,8 @@ function Ranking() {
       }}
     >
       <FormControl variant="filled" sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-filled-label">Sort by</InputLabel>
-        <Select
-          labelId="demo-simple-select-filled-label"
-          id="demo-simple-select-filled"
-          value={sort}
-          onChange={handleChange}
-        >
+        <InputLabel>Sort by</InputLabel>
+        <Select value={sort} onChange={handleChange}>
           <MenuItem value="base_experience">Base Experience</MenuItem>
           <MenuItem value="weight">Weight</MenuItem>
           <MenuItem value="height">Height</MenuItem>
@@ -70,25 +42,22 @@ function Ranking() {
           overflowY: "scroll",
           overflowX: "hidden",
           backgroundColor: alpha(theme.palette.background.default, 0.6),
-          borderRadius: "25px",
+          borderRadius: "14px",
         })}
       >
         <List>
-          {sortedPokemons.map(
-            ({ name, base_experience, height, weight, won_fights, lose_fights, data_source_id, image }, index) => (
-              <ListItem key={data_source_id}>
-                <ListItemButton>
-                  <Typography variant="body1" sx={{ marginRight: 1 }}>
-                    {index + 1}.
-                  </Typography>
-                  <img src={image} alt={name} style={{ width: 50, marginRight: 10 }} />
-                  <ListItemText
-                    primary={`Name: ${name} | Base Exp: ${base_experience} | Height: ${height} | Weight: ${weight} | Won: ${won_fights} | Lose: ${lose_fights}`}
-                  />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+          {sortedPokemons.map(({ name, base_experience, height, weight, won_fights, data_source_id, image }, index) => (
+            <RankingElement
+              key={data_source_id}
+              name={name}
+              base_experience={base_experience}
+              height={height}
+              weight={weight}
+              won_fights={won_fights}
+              image={image}
+              lp={index}
+            />
+          ))}
         </List>
       </Box>
     </Box>

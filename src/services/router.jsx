@@ -1,15 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../components/subpages/Home/Home";
-import Arena from "../components/subpages/Arena/Arena";
-import Editing from "../components/subpages/Editing/Editing";
-import EditPokemon from "../components/subpages/Editing/EditPokemon/EditPokemon";
-import CreateNewPokemon from "../components/subpages/Editing/CreateNewPokemon/CreateNewPokemon";
-import Favourites from "../components/subpages/Favourites/Favourites";
-import Login from "../components/subpages/Login/Login";
-import Ranking from "../components/subpages/Ranking/Ranking";
-import Registration from "../components/subpages/Registration/Registration";
+import {
+  Home,
+  Arena,
+  Editing,
+  EditPokemon,
+  CreateNewPokemon,
+  Favourites,
+  Login,
+  Ranking,
+  Registration,
+} from "components/subpages";
 import App from "../App";
-import DetailsPokemon from "../components/shared/DetailsPokemon/DetailsPokemon";
+import { DetailsPokemon } from "components/shared";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <Home /> },
-      { path: "details/:data_source_id", element: <DetailsPokemon /> },
+      { path: "/details/:data_source_id", element: <DetailsPokemon /> },
       { path: "arena", element: <Arena /> },
       { path: "editing", element: <Editing /> },
       { path: "editing/editpokemon/:data_source_id", element: <EditPokemon /> },
