@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
+const baseUrl = 'http://localhost:3000'
+
 const useRegister = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const checkUserExists = async (email) => {
-    const url = `http://localhost:3000/users?email=${email}`;
+    const url = `${baseUrl}/users?email=${email}`;
     try {
       const response = await fetch(url);
       if (response.ok) {
@@ -20,7 +22,7 @@ const useRegister = () => {
   };
 
   const createUser = async (newUser) => {
-    const url = "http://localhost:3000/users";
+    const url = `${baseUrl}/users`;
 
     try {
       const userExists = await checkUserExists(newUser.email);

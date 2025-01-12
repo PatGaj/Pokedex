@@ -52,12 +52,10 @@ function CheckBoxWrapper({ pokemon }) {
         defaultChecked={pokemon?.favourite}
         onChange={() => {
           pokemon.favourite = !favBoxChecked;
-          // funkcja isInUserDatabase ta sama co na arenie
           if (!dataUser.pokemons.includes(pokemon)) {
             pokemon.id = dataUser.pokemons.length + 1;
             dataUser.pokemons.push(pokemon);
           }
-          // ----
           updateUser(dataUser.id, { pokemons: dataUser.pokemons });
           !favBoxChecked
             ? enqueueSnackbar(`Successfully added Pokemon ${pokemon.name} to Favorite`, { variant: "success" })

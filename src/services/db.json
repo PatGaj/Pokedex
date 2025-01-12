@@ -13,13 +13,27 @@
           "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
           "weight": 1000,
           "height": 20,
-          "base_experience": 263,
+          "base_experience": 273,
           "ability": "overgrow",
           "favourite": true,
-          "fought": false,
-          "won_fights": 0,
+          "fought": true,
+          "won_fights": 1,
           "lose_fights": 0,
           "id": 1
+        },
+        {
+          "data_source_id": "pokeApi_bulbasaur",
+          "name": "bulbasaur",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+          "weight": 69,
+          "height": 7,
+          "base_experience": 64,
+          "ability": "overgrow",
+          "favourite": false,
+          "fought": true,
+          "won_fights": 0,
+          "lose_fights": 1,
+          "id": 2
         }
       ]
     }

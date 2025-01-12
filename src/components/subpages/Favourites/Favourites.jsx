@@ -46,7 +46,7 @@ function Favorites() {
               favourite && (
                 <Tile
                   key={data_source_id}
-                  data_source_id={data_source_id}
+                  dataSourceId={data_source_id}
                   name={name}
                   image={image}
                   weight={weight}
@@ -54,8 +54,8 @@ function Favorites() {
                   baseExperience={base_experience}
                   ability={ability}
                   fought={fought}
-                  lose_fights={lose_fights}
-                  won_fights={won_fights}
+                  loseFights={lose_fights}
+                  wonFights={won_fights}
                 />
               )
           )

@@ -1,6 +1,5 @@
 import { alpha, Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useCreateNewPokemonLogic } from "./useCreateNewPokemonLogic";
 
 function CreateNewPokemon() {
@@ -29,7 +28,7 @@ function CreateNewPokemon() {
       </Typography>
       <Box sx={{ display: "flex" }}>
         <IconButton color="primary" aria-label="previous" onClick={() => setImageNumber((prev) => prev - 1)}>
-          <ArrowBackIosIcon />
+          <ArrowBackIos />
         </IconButton>
         <Box
           component="img"
@@ -43,7 +42,7 @@ function CreateNewPokemon() {
           alt="Image Pokemon"
         />
         <IconButton color="primary" aria-label="next" onClick={() => setImageNumber((prev) => prev + 1)}>
-          <ArrowForwardIosIcon />
+          <ArrowForwardIos />
         </IconButton>
       </Box>
 

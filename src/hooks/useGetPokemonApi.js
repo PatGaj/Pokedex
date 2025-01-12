@@ -33,7 +33,7 @@ export const useGetPokemonApi = (url) => {
           );
           setPokemonsApi(pokemonDetails);
         } catch (err) {
-          console.error("Błąd podczas pobierania danych Pokemonów:", err);
+          console.error("Error while downloading Pokemon data:", err);
         } finally {
           setLoading(false);
         }

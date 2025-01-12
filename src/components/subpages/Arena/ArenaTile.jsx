@@ -90,7 +90,7 @@ function ArenaTile({ pokemon, fight }) {
             [theme.breakpoints.down("sm")]: { height: "180px", width: "300px" },
           })}
         >
-          <img src="/Pokedex.png" width="150" alt="" />
+          <Box component="img" src="/Pokedex.png" sx={{ width: "150px" }} />
         </Box>
       )}
     </>

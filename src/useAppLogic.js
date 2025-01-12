@@ -1,12 +1,12 @@
 import { useContext, useEffect } from "react";
-import useLogin from "./useLogin";
+import useLogin from "./hooks/useLogin";
 import { LoginContext } from "context/index";
 
 const useAppLogic = () => {
   const { isLogin } = useContext(LoginContext);
   const { tryLogin } = useLogin();
   const localIsLogin = localStorage.getItem("isLoginPokedex");
-  
+
   useEffect(() => {
     if (!isLogin && localIsLogin) {
       const email = localStorage.getItem("emailPokedex");

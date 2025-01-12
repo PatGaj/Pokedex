@@ -12,9 +12,9 @@ function Tile({
   baseExperience,
   ability,
   fought,
-  won_fights,
-  lose_fights,
-  data_source_id,
+  wonFights,
+  loseFights,
+  dataSourceId,
 }) {
   const { isDarkMode } = useContext(DarkModeContext);
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Tile({
 
   return (
     <Box
-      onClick={() => navigate(`details/${data_source_id}`)}
+      onClick={() => navigate(`details/${dataSourceId}`)}
       sx={{
         display: "flex",
         width: "220px",
@@ -64,7 +64,7 @@ function Tile({
             backgroundColor: "#8b8b8ba6",
           }}
         >
-          W:{won_fights} L:{lose_fights}
+          W:{wonFights} L:{loseFights}
         </Box>
       )}
       <Box

@@ -4,7 +4,7 @@ import { ThemeProvider, alpha, createTheme } from "@mui/material/styles";
 import { Box, CssBaseline, GlobalStyles } from "@mui/material";
 import { Navigation } from "components/shared";
 import { DarkModeContext } from "context";
-import useAppLogic from "hooks/useHandleLogin";
+import useAppLogic from "./useAppLogic";
 
 function App() {
   const { isDarkMode } = useContext(DarkModeContext);

@@ -27,10 +27,10 @@ function Ranking() {
       <FormControl variant="filled" sx={{ minWidth: 120 }}>
         <InputLabel>Sort by</InputLabel>
         <Select value={sort} onChange={handleChange}>
-          <MenuItem value="base_experience">Base Experience</MenuItem>
+          <MenuItem value="baseExperience">Base Experience</MenuItem>
           <MenuItem value="weight">Weight</MenuItem>
           <MenuItem value="height">Height</MenuItem>
-          <MenuItem value="won_fights">Won Fights</MenuItem>
+          <MenuItem value="wonFights">Won Fights</MenuItem>
         </Select>
       </FormControl>
 
@@ -50,10 +50,10 @@ function Ranking() {
             <RankingElement
               key={data_source_id}
               name={name}
-              base_experience={base_experience}
+              baseExperience={base_experience}
               height={height}
               weight={weight}
-              won_fights={won_fights}
+              wonFights={won_fights}
               image={image}
               lp={index}
             />

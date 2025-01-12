@@ -1,6 +1,6 @@
 import { ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 
-function RankingElement({ name, base_experience, height, weight, won_fights, image, lp }) {
+function RankingElement({ name, baseExperience, height, weight, wonFights, image, lp }) {
   return (
     <ListItem>
       <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
@@ -22,10 +22,10 @@ function RankingElement({ name, base_experience, height, weight, won_fights, ima
               }}
             >
               <span>Name: {name.toUpperCase()}</span>
-              <span>Exp: {base_experience}</span>
+              <span>Exp: {baseExperience}</span>
               <span>Height: {height}</span>
               <span>Weight: {weight}</span>
-              <span>Won: {won_fights}</span>
+              <span>Won: {wonFights}</span>
             </Typography>
           }
         />
