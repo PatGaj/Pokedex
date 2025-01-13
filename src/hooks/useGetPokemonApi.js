@@ -18,7 +18,7 @@ export const useGetPokemonApi = (url) => {
               const pokemon = {
                 data_source_id: `pokeApi_${pokemonApi.name}`,
                 name: pokemonApi.name,
-                image: pokemonApi.sprites?.front_default,
+                image: pokemonApi.sprites?.other.dream_world.front_default,
                 weight: pokemonApi.weight,
                 height: pokemonApi.height,
                 base_experience: pokemonApi.base_experience,

@@ -37,7 +37,7 @@ function Editing() {
             >
 
               <ListItemText primary={`${index + 1}. Name: ${name.toUpperCase()}`} />
-              <img src={image} />
+              <Box component="img" sx={{width:"50px",height:"50px"}} src={image} />
               <Button onClick={() => navigate(`editpokemon/${data_source_id}`)} variant="contained">
                 Edit
               </Button>

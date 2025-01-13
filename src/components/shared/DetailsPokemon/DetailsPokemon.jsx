@@ -44,7 +44,7 @@ function DetailsPokemon() {
         <Box
           component="img"
           sx={(theme) => ({
-            width: "400px",
+            height: "400px",
             filter: "drop-shadow(-10px 5px 5px rgba(0, 0, 0, 0.5))",
             [theme.breakpoints.down("md")]: { width: "200px" },
           })}

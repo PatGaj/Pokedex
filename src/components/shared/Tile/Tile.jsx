@@ -70,7 +70,7 @@ function Tile({
       <Box
         component="img"
         sx={{
-          scale: "1.2",
+          height:"100px",
           filter: "drop-shadow(-2px -1px 1.5px rgba(0, 0, 0, 0.5))",
         }}
         src={image}

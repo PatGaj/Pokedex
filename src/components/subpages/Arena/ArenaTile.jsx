@@ -60,6 +60,8 @@ function ArenaTile({ pokemon, fight }) {
             <Box
               component="img"
               sx={{
+                width: "100px",
+                height: "100px",
                 filter: "drop-shadow(-2px -1px 1.5px rgba(0, 0, 0, 0.5))",
               }}
               src={pokemon?.image}

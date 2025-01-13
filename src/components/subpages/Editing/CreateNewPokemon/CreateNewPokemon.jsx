@@ -33,12 +33,13 @@ function CreateNewPokemon() {
         <Box
           component="img"
           sx={{
-            scale: "1.2",
+            width: "100px",
+            height:"100px",
             filter: `drop-shadow(-2px -1px 1.5px rgba(0, 0, 0, 0.5)) ${
               used_sprites.includes(imageNumber) || imageNumber <= 150 ? "grayscale(100%)" : ""
             }`,
           }}
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${imageNumber}.png`}
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${imageNumber}.svg`}
           alt="Image Pokemon"
         />
         <IconButton color="primary" aria-label="next" onClick={() => setImageNumber((prev) => prev + 1)}>

@@ -26,7 +26,12 @@ function EditPokemon() {
         Editing Pokemon
       </Typography>
       <span>{pokemon.name.toUpperCase()}</span>
-      <Box component="img" src={pokemon.image} alt={`Pokemon ${pokemon.name} Image`} />
+      <Box
+        component="img"
+        sx={{ width: "100px", height: "100px" }}
+        src={pokemon.image}
+        alt={`Pokemon ${pokemon.name} Image`}
+      />
       <TextField
         label="Height"
         type="number"
