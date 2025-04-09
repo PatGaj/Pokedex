@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeProvider, alpha, createTheme } from "@mui/material/styles";
+import { Box, CssBaseline, GlobalStyles } from "@mui/material";
+import { Navigation } from "components/shared";
+import { DarkModeContext } from "context";
+import useAppLogic from "./useAppLogic";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { isDarkMode } = useContext(DarkModeContext);
+  const darkTheme = createTheme({
+    palette: {
+      mode: isDarkMode ? "dark" : "light",
+    },
+  });
+
+  useAppLogic();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          body: {
+            margin: 0,
+            padding: 0,
+            boxSizing: "border-box",
+            backgroundImage: `${isDarkMode ? "url(/dark_theme.jpg)" : "url(/light_theme.jpg)"}`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
+          },
+        }}
+      />
+      <Navigation />
+      <Box
+        sx={(theme) => ({
+          height: "calc(100vh - 150px - 50px)",
+          margin: "25px",
+          padding: "25px",
+          borderRadius: "25px",
+          backgroundColor: alpha(theme.palette.background.default, 0.6),
+          [theme.breakpoints.down("md")]: {
+            margin: 0,
+            borderRadius: 0,
+            padding: "10px",
+            height: "calc(100vh - 140px)",
+          },
+        })}
+      >
+        <Outlet />
+      </Box>
+    </ThemeProvider>
+  );
 }
-
-export default App
+export default App;
